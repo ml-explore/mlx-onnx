@@ -31,8 +31,6 @@ class TestMlxBackendWrapper:
 
 btest = onnx.backend.test.BackendTest(TestMlxBackendWrapper, __name__)
 
-btest.include("test_round_*")
-
 # TODO: these are upcasting to float32
 btest.exclude("test_div_uint8_cpu")
 btest.exclude("test_pow_types_int32_float32_cpu")
@@ -58,7 +56,16 @@ btest.exclude("test_gelu_tanh_*")
 btest.exclude("test_bitwise_*")
 btest.exclude("test_gathernd_*")
 
-
+# Exclude conv due to either dilation or groups
+btest.exclude("test_Conv1d_dilated_cpu")
+btest.exclude("test_Conv1d_groups_cpu")
+btest.exclude("test_Conv2d_depthwise_cpu")
+btest.exclude("test_Conv2d_depthwise_padded_cpu")
+btest.exclude("test_Conv2d_depthwise_strided_cpu")
+btest.exclude("test_Conv2d_depthwise_with_multiplier_cpu")
+btest.exclude("test_Conv2d_dilated_cpu")
+btest.exclude("test_Conv2d_groups_cpu")
+btest.exclude("test_Conv3d_*")
 # TODO: need to go through and handle these better
 btest.exclude("test_cast_*")
 btest.exclude("test_castlike_*")
@@ -68,10 +75,7 @@ btest.exclude("test_argmax_no_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_no_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_negative_axis_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_keepdims_example_select_last_index_cpu")
-
-# TODO: Reenable when float64 support is added back
-btest.exclude("test_max_float64_cpu")
-btest.exclude("test_min_float64_cpu")
+btest.exclude("test_Conv2d_groups_thnn_cpu")
 
 # TODO: Graph tests
 btest.exclude("test_range_float_type_positive_delta_expanded_cpu")
@@ -88,6 +92,8 @@ btest.exclude("test_bitshift_*")
 btest.exclude("string")
 
 # float64 datatype
+btest.exclude("test_max_float64_cpu")
+btest.exclude("test_min_float64_cpu")
 btest.exclude("test_reduce_log_sum_exp_*")
 btest.exclude("test_operator_addconstant_cpu")
 btest.exclude("test_operator_add_size1_singleton_broadcast_cpu")

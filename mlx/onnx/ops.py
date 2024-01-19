@@ -526,16 +526,18 @@ def Split(x: mx.array, split: Optional[mx.array] = None, num_outputs=None, axis=
         res.append(x[tuple(sli)])
     return tuple(res)
 
-
-def Conv(
-    x: mx.array,
-    weight: mx.array,
-    bias: Optional[mx.array] = None,
-    auto_pad="NOTSET",
-    dilations: List[int] = None,
-    group=1,
-    kernel_shape: List[int] = None,
-    pads: List[int] = None,
-    strids: List[int] = None,
-):
-    pass
+def Conv(x: mx.array, weight: mx.array, bias: Optional[mx.array]=None, dilations:Optional[mx.array]=None, group=1, kernel_shape:Optional[mx.array]=None, pads:Optional[mx.array]=None, strides:Optional[mx.array]=None):
+    assert group == 1, f"mlx only supports 1 group, got {group}"
+    assert all(x == 1 for x in dilations.tolist()), "mlx only supports dilation 1"
+    if x.ndim == 3:
+        if dilations and dilations.item() != 1:
+            raise NotImplementedError("mlx does not support dilation other than 1")
+        c = mx.conv1d(x.transpose(0, 2, 1), weight.transpose(0, 2, 1), padding=pads.tolist()[0], stride=strides.item())
+        c = c + bias if bias is not None else c 
+        return c.transpose(0, 2, 1)
+    elif x.ndim == 4:
+        c = mx.conv2d(x.transpose(0, 2, 3, 1), weight.transpose(0, 2, 3, 1), padding=pads.tolist()[:2], stride=strides.tolist())
+        c = c + bias if bias is not None else c
+        return c.transpose(0, 3, 1, 2)
+    else:
+        raise NotImplementedError("mlx does not support conv other than 1d and 2d")
