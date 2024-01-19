@@ -483,8 +483,8 @@ def Slice(
     x: mx.array,
     starts: mx.array,
     ends: mx.array,
-    axes: mx.array = None,
-    steps: mx.array = None,
+    axes: Optional[mx.array] = None,
+    steps: Optional[mx.array] = None,
 ):
     if axes is None:
         axes = mx.arange(x.ndim)

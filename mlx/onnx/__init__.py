@@ -47,7 +47,6 @@ class MlxBackend:
             raise NotImplementedError(
                 f"Not implemented for {inp.data_type} {inp.name} {inp.dims}"
             )
-        return mx.ones(inp.dims, dtype=mx.float32)
 
     def get_input_dict(self, inputs):
         input_names = [x.name for x in self._model.graph.input]
