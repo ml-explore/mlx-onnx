@@ -108,6 +108,6 @@ class MlxBackend:
             if not isinstance(res, tuple):
                 res = (res,)
 
-            for i in range(len(node.output)):
-                self._cache[node.output[i]] = res[i]
+            for name, out in zip(node.output, res):
+                self._cache[name] = out
         return tuple(self._cache[out.name] for out in self._model.graph.output)

@@ -310,7 +310,7 @@ def Shrink(x: mx.array, bias=0.0, lambd=0.5):
 
 def Reshape(x: mx.array, shape: mx.array, allowzero=0):
     new_shape = [
-        d if d != 0 else (0 if allowzero else x.shape[i])
+        int(d) if d != 0 else (0 if allowzero else x.shape[i])
         for i, d in enumerate(shape.tolist())
     ]
     return x.reshape(new_shape)
@@ -493,3 +493,12 @@ def Slice(
     for start, end, axe, step in zip(starts, ends, axes, steps):
         slices[axe.item()] = slice(start.item(), end.item(), step.item())
     return x[tuple(slices)]
+
+def LayerNormalization(x: mx.array, scale: mx.array, bias: mx.array, axis=-1, stash_type=1, epsilon=1e-5):
+    axis = [i for i in range(axis if axis >= 0 else x.ndim + axis, x.ndim)]
+    t = layers.LayerNorm(dims=0, eps=epsilon)
+    setattr(t, "weight", scale)
+    setattr(t, "bias", bias)
+    mean = x.mean(axis=axis, keepdims=True)
+    invstd = (((x - mean) ** 2).mean(axis=axis, keepdims=True) + epsilon).rsqrt()
+    return t(x, axis=axis), mean, invstd
