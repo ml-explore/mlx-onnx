@@ -31,7 +31,7 @@ class TestMlxBackendWrapper:
 
 btest = onnx.backend.test.BackendTest(TestMlxBackendWrapper, __name__)
 
-# btest.include("")
+btest.include("test_round_*")
 
 # TODO: these are upcasting to float32
 btest.exclude("test_div_uint8_cpu")
@@ -79,9 +79,6 @@ btest.exclude("test_range_int32_type_negative_delta_expanded_cpu")
 
 # TODO: Add gradient support
 btest.exclude("test_gradient_*")
-
-# TODO: There is a bug in mlx round impl, -2.5 -> -3 instead of -2
-btest.exclude("test_round_*")
 
 # TODO: Investigate
 btest.exclude("test_operator_pad_*")

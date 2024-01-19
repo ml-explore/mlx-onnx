@@ -438,7 +438,6 @@ def Erf(x: mx.array):
     return mx.erf(x)
 
 
-# Note: There is a bug in mlx round impl, -2.5 -> -3 instead of -2
 def Round(x: mx.array):
     return x.round()
 
