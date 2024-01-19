@@ -494,7 +494,10 @@ def Slice(
         slices[axe.item()] = slice(start.item(), end.item(), step.item())
     return x[tuple(slices)]
 
-def LayerNormalization(x: mx.array, scale: mx.array, bias: mx.array, axis=-1, stash_type=1, epsilon=1e-5):
+
+def LayerNormalization(
+    x: mx.array, scale: mx.array, bias: mx.array, axis=-1, stash_type=1, epsilon=1e-5
+):
     axis = [i for i in range(axis if axis >= 0 else x.ndim + axis, x.ndim)]
     t = layers.LayerNorm(dims=0, eps=epsilon)
     setattr(t, "weight", scale)
@@ -503,13 +506,16 @@ def LayerNormalization(x: mx.array, scale: mx.array, bias: mx.array, axis=-1, st
     invstd = (((x - mean) ** 2).mean(axis=axis, keepdims=True) + epsilon).rsqrt()
     return t(x, axis=axis), mean, invstd
 
-def Split(x: mx.array, split: Optional[mx.array]=None, num_outputs=None, axis=0):
+
+def Split(x: mx.array, split: Optional[mx.array] = None, num_outputs=None, axis=0):
     if split is None:
         if x.shape[axis] % num_outputs == 0:
             split = [x.shape[axis] // num_outputs] * num_outputs
         else:
             cnt = math.ceil(x.shape[axis] / num_outputs)
-            split = [cnt] * (num_outputs - 1) + [x.shape[axis] - cnt * (num_outputs - 1)]
+            split = [cnt] * (num_outputs - 1) + [
+                x.shape[axis] - cnt * (num_outputs - 1)
+            ]
         split = mx.array(split, dtype=mx.int64)
     sli = [slice(0, s) for s in x.shape]
     res = []
@@ -519,3 +525,17 @@ def Split(x: mx.array, split: Optional[mx.array]=None, num_outputs=None, axis=0)
         pos += spl
         res.append(x[tuple(sli)])
     return tuple(res)
+
+
+def Conv(
+    x: mx.array,
+    weight: mx.array,
+    bias: Optional[mx.array] = None,
+    auto_pad="NOTSET",
+    dilations: List[int] = None,
+    group=1,
+    kernel_shape: List[int] = None,
+    pads: List[int] = None,
+    strids: List[int] = None,
+):
+    pass

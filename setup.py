@@ -7,6 +7,7 @@ setup(
     install_requires=["mlx", "onnx"],
     extras_require={
         "test": ["numpy", "pytest"],
+        "dev": ["pre-commit"],
     },
     packages=["mlx.onnx"],
 )
