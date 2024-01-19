@@ -62,7 +62,7 @@ class MlxBackend:
             elif x.type == onnx.AttributeProto.INT:
                 res[x.name] = int(x.i)
             elif x.type == onnx.AttributeProto.STRING:
-                res[x.name] = str(x.s)
+                res[x.name] = x.s.decode("utf-8")
             elif x.type == onnx.AttributeProto.TENSOR:
                 res[x.name] = self.parse_array(x.t)
             # Sometimes this gets passed as args to functions that expect mx.array, so just converting
@@ -72,7 +72,7 @@ class MlxBackend:
             elif x.type == onnx.AttributeProto.INTS:
                 res[x.name] = mx.array([int(i) for i in x.ints], dtype=mx.int64)
             elif x.type == onnx.AttributeProto.STRINGS:
-                res[x.name] = tuple(str(s) for s in x.strings)
+                res[x.name] = tuple(s.decode("utf-8") for s in x.strings)
             elif x.type == onnx.AttributeProto.GRAPH:
                 raise NotImplementedError(f"Attribute type graph not implemented")
             else:
