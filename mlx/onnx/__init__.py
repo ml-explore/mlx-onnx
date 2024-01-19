@@ -100,7 +100,12 @@ class MlxBackend:
             args = [self._cache[x] for x in node.input]
             opt = self.parse_attributes(node.attribute)
 
-            if hasattr(onnx_ops, node.op_type):
+            # Special case for split as outputs might need to be inferred from node 
+            if node.op_type == "Split":
+                if "num_outputs" not in opt and len(args) != 2:
+                    opt["num_outputs"] = len(node.output)
+                res = getattr(onnx_ops, node.op_type)(*args, **opt)
+            elif hasattr(onnx_ops, node.op_type):
                 res = getattr(onnx_ops, node.op_type)(*args, **opt)
             else:
                 raise NotImplementedError(f"Operation {node.op_type} not implemented")
