@@ -556,3 +556,18 @@ def IsInf(x: mx.array, detect_negative=1, detect_positive=1):
 
 def IsNaN(x: mx.array):
     return x != x
+
+def ThresholdedRelu(x: mx.array, alpha=1.0):
+    return mx.where(x > alpha, x, 0)
+
+def Binarizer(x: mx.array, threshold=0.0):
+    return mx.where(x > threshold, 1.0, 0.0)
+
+def GlobalAveragePool(x: mx.array):
+    return x.mean(axis=tuple(range(2, x.ndim)), keepdims=True)
+
+def GlobalMaxPool(x: mx.array):
+    return x.max(axis=tuple(range(2, x.ndim)), keepdims=True)
+
+def Xor(x: mx.array, y: mx.array):
+    return mx.where(x == y, False, True)

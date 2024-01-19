@@ -92,9 +92,11 @@ class MlxBackend:
                     self._cache[i.name] = [mx.array(x) for x in inputs[i.name]]
                 elif isinstance(inputs[i.name], np.ndarray):
                     self._cache[i.name] = mx.array(inputs[i.name])
+                elif inputs[i.name] is None:
+                    self._cache[i.name] = None
                 else:
                     raise NotImplementedError(
-                        f"Input type {type(inputs[i.name])} not implemented"
+                        f"Input type {inputs[i.name]} not implemented"
                     )
         for i, node in enumerate(self._model.graph.node):
             args = [self._cache[x] for x in node.input]
