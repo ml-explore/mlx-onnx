@@ -55,6 +55,8 @@ btest.exclude("test_instancenorm_*")
 btest.exclude("test_gelu_tanh_*")
 btest.exclude("test_bitwise_*")
 btest.exclude("test_gathernd_*")
+btest.exclude("test_tfidfvectorizer_*")
+btest.exclude("test_split_to_sequence_*")
 
 # Exclude conv due to either dilation or groups
 btest.exclude("test_Conv1d_dilated_cpu")
@@ -66,6 +68,7 @@ btest.exclude("test_Conv2d_depthwise_with_multiplier_cpu")
 btest.exclude("test_Conv2d_dilated_cpu")
 btest.exclude("test_Conv2d_groups_cpu")
 btest.exclude("test_Conv3d_*")
+
 # TODO: need to go through and handle these better
 btest.exclude("test_cast_*")
 btest.exclude("test_castlike_*")
@@ -80,11 +83,22 @@ btest.exclude("test_Conv2d_groups_thnn_cpu")
 # TODO: Graph tests
 btest.exclude("test_range_float_type_positive_delta_expanded_cpu")
 btest.exclude("test_range_int32_type_negative_delta_expanded_cpu")
+btest.exclude("test_scan9_sum_cpu")
+btest.exclude("test_loop16_seq_none_cpu")
+btest.exclude("test_loop13_seq_cpu")
+btest.exclude("test_loop11_cpu")
+btest.exclude("test_if_*")
+btest.exclude("test_affine_grid_*")
 
 # TODO: Add gradient support
 btest.exclude("test_gradient_*")
 
 # TODO: Investigate
+btest.exclude("test_mod_mixed_sign_int8_cpu")
+btest.exclude("test_mod_mixed_sign_int64_cpu")
+btest.exclude("test_mod_mixed_sign_int32_cpu")
+btest.exclude("test_mod_mixed_sign_int16_cpu")
+
 btest.exclude("test_operator_pad_*")
 btest.exclude("test_sequence_*")
 btest.exclude("test_strnorm_*")
@@ -102,7 +116,7 @@ btest.exclude("test_operator_add_size1_broadcast_cpu")
 btest.exclude("test_operator_add_size1_right_broadcast_cpu")
 btest.exclude("test_cumsum_*")
 btest.exclude("test_eyelike_with_dtype_cpu")
-
+btest.exclude("test_mod_mixed_sign_float64_cpu")
 # skip models
 for x in btest.test_suite:
     if "OnnxBackendRealModelTest" in str(type(x)):

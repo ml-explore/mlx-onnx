@@ -541,3 +541,12 @@ def Conv(x: mx.array, weight: mx.array, bias: Optional[mx.array]=None, dilations
         return c.transpose(0, 3, 1, 2)
     else:
         raise NotImplementedError("mlx does not support conv other than 1d and 2d")
+    
+def Mod(x: mx.array, y: mx.array, fmod=0):
+    return x % y
+
+def OptionalHasElement(x: Optional[mx.array]=None):
+    return mx.array(x is not None and len(x) > 0, dtype=mx.bool_)
+
+def OptionalGetElement(x: Optional[mx.array]=None):
+    return x if x is not None else mx.array([])
