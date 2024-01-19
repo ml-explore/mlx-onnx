@@ -550,3 +550,9 @@ def OptionalHasElement(x: Optional[mx.array]=None):
 
 def OptionalGetElement(x: Optional[mx.array]=None):
     return x if x is not None else mx.array([])
+
+def IsInf(x: mx.array, detect_negative=1, detect_positive=1):
+    return (x == float("inf")) * bool(detect_positive) + (x == float("-inf")) * bool(detect_negative)
+
+def IsNaN(x: mx.array):
+    return x != x

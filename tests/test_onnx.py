@@ -57,6 +57,10 @@ btest.exclude("test_bitwise_*")
 btest.exclude("test_gathernd_*")
 btest.exclude("test_tfidfvectorizer_*")
 btest.exclude("test_split_to_sequence_*")
+btest.exclude("test_unique_*")
+btest.exclude("test_einsum_*")
+btest.exclude("test_image_decoder_*")
+btest.exclude("test_convinteger_*")
 
 # Exclude conv due to either dilation or groups
 btest.exclude("test_Conv1d_dilated_cpu")
