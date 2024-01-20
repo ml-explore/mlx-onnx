@@ -99,7 +99,7 @@ class MlxBackend:
                         f"Input type {inputs[i.name]} not implemented"
                     )
         for i, node in enumerate(self._model.graph.node):
-            args = [self._cache[x] for x in node.input]
+            args = [self._cache[x] if x in self._cache else None for x in node.input]
             opt = self.parse_attributes(node.attribute)
 
             # Special case for split as outputs might need to be inferred from node 

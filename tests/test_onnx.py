@@ -130,7 +130,6 @@ btest.exclude("test_resize_*")
 btest.exclude("test_regex_*")
 
 btest.exclude("test_nllloss_*")
-btest.exclude("test_optional_*")
 btest.exclude("test_mvn_*")
 
 btest.exclude("test_ai_onnx_ml_*")
@@ -141,8 +140,6 @@ btest.exclude("test_qlinearmatmul_*")
 btest.exclude("test_quantizelinear_*")
 btest.exclude("test_dynamicquantizelinear_*")
 btest.exclude("test_dequantizelinear_*")
-
-btest.exclude("test_optional_has_element_empty_optional_input_cpu")
 
 # Exclude conv due to either dilation or groups
 btest.exclude("test_Conv1d_dilated_cpu")
