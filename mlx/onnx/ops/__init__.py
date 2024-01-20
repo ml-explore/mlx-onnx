@@ -4,7 +4,15 @@ from typing import List, Optional, Union
 
 import mlx.core as mx
 import mlx.nn.layers as layers
+import mlx.nn.losses as losses
 import onnx
+
+from .op_norm import LayerNormalization
+from .op_nll import NegativeLogLikelihoodLoss
+from .op_softmax_cross_entropy import SoftmaxCrossEntropyLoss
+from .op_split import Split
+from .op_conv import Conv
+from .op_slice import Slice
 
 # Reference Docs: https://onnx.ai/onnx/operators/
 
@@ -478,70 +486,6 @@ def Not(x: mx.array):
     return ~x
 
 
-def Slice(
-    x: mx.array,
-    starts: mx.array,
-    ends: mx.array,
-    axes: Optional[mx.array] = None,
-    steps: Optional[mx.array] = None,
-):
-    if axes is None:
-        axes = mx.arange(x.ndim)
-    if steps is None:
-        steps = mx.ones(starts.shape, dtype=mx.int64)
-    slices = [slice(0, d) for d in x.shape]
-    for start, end, axe, step in zip(starts, ends, axes, steps):
-        slices[axe.item()] = slice(start.item(), end.item(), step.item())
-    return x[tuple(slices)]
-
-
-def LayerNormalization(
-    x: mx.array, scale: mx.array, bias: mx.array, axis=-1, stash_type=1, epsilon=1e-5
-):
-    axis = [i for i in range(axis if axis >= 0 else x.ndim + axis, x.ndim)]
-    t = layers.LayerNorm(dims=0, eps=epsilon)
-    setattr(t, "weight", scale)
-    setattr(t, "bias", bias)
-    mean = x.mean(axis=axis, keepdims=True)
-    invstd = (((x - mean) ** 2).mean(axis=axis, keepdims=True) + epsilon).rsqrt()
-    return t(x, axis=axis), mean, invstd
-
-
-def Split(x: mx.array, split: Optional[mx.array] = None, num_outputs=None, axis=0):
-    if split is None:
-        if x.shape[axis] % num_outputs == 0:
-            split = [x.shape[axis] // num_outputs] * num_outputs
-        else:
-            cnt = math.ceil(x.shape[axis] / num_outputs)
-            split = [cnt] * (num_outputs - 1) + [
-                x.shape[axis] - cnt * (num_outputs - 1)
-            ]
-        split = mx.array(split, dtype=mx.int64)
-    sli = [slice(0, s) for s in x.shape]
-    res = []
-    pos = 0
-    for spl in split.tolist():
-        sli[axis] = slice(pos, pos + spl)
-        pos += spl
-        res.append(x[tuple(sli)])
-    return tuple(res)
-
-def Conv(x: mx.array, weight: mx.array, bias: Optional[mx.array]=None, dilations:Optional[mx.array]=None, group=1, kernel_shape:Optional[mx.array]=None, pads:Optional[mx.array]=None, strides:Optional[mx.array]=None):
-    assert group == 1, f"mlx only supports 1 group, got {group}"
-    assert all(x == 1 for x in dilations.tolist()), "mlx only supports dilation 1"
-    if x.ndim == 3:
-        if dilations and dilations.item() != 1:
-            raise NotImplementedError("mlx does not support dilation other than 1")
-        c = mx.conv1d(x.transpose(0, 2, 1), weight.transpose(0, 2, 1), padding=pads.tolist()[0], stride=strides.item())
-        c = c + bias if bias is not None else c 
-        return c.transpose(0, 2, 1)
-    elif x.ndim == 4:
-        c = mx.conv2d(x.transpose(0, 2, 3, 1), weight.transpose(0, 2, 3, 1), padding=pads.tolist()[:2], stride=strides.tolist())
-        c = c + bias if bias is not None else c
-        return c.transpose(0, 3, 1, 2)
-    else:
-        raise NotImplementedError("mlx does not support conv other than 1d and 2d")
-    
 def Mod(x: mx.array, y: mx.array, fmod=0):
     return x % y
 

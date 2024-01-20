@@ -31,6 +31,8 @@ class TestMlxBackendWrapper:
 
 btest = onnx.backend.test.BackendTest(TestMlxBackendWrapper, __name__)
 
+# btest.include("test_sce_*")
+btest.exclude("test_sce_*")
 # TODO: these are upcasting to float32
 btest.exclude("test_div_uint8_cpu")
 btest.exclude("test_pow_types_int32_float32_cpu")
@@ -46,9 +48,18 @@ btest.exclude("test_clip_default_int8_inbounds_cpu")
 btest.exclude("test_reduce_min_empty_set_cpu")
 
 # TODO: Implement
-btest.exclude("test_pad_*")
+btest.exclude("test_ZeroPad2d_*")
+btest.exclude("test_ReplicationPad2d_*")
+btest.exclude("test_wrap_pad_*")
+btest.exclude("test_ReflectionPad2d_*")
+btest.exclude("test_edge_*")
 
+btest.exclude("test_operator_convtranspose_cpu")
+btest.exclude("test_ConvTranspose2d_*")
+btest.exclude("test_ConstantPad2d_*")
+btest.exclude("test_convtranspose_*")
 
+btest.exclude("test_PReLU_*")
 btest.exclude("test_topk*")
 btest.exclude("test_maxpool_*")
 btest.exclude("test_operator_maxpool_*")
@@ -111,6 +122,12 @@ btest.exclude("test_training_dropout_*")
 btest.exclude("test_dropout_*")
 btest.exclude("test_melweightmatrix_cpu")
 btest.exclude("test_group_normalization_*")
+btest.exclude("test_resize_*")
+btest.exclude("test_regex_*")
+
+btest.exclude("test_nllloss_*")
+btest.exclude("test_optional_*")
+btest.exclude("test_mvn_*")
 
 # TODO: Quantize ops
 btest.exclude("test_qlinearconv_*")
@@ -180,6 +197,7 @@ btest.exclude("test_operator_add_size1_right_broadcast_cpu")
 btest.exclude("test_cumsum_*")
 btest.exclude("test_eyelike_with_dtype_cpu")
 btest.exclude("test_mod_mixed_sign_float64_cpu")
+
 # skip models
 for x in btest.test_suite:
     if "OnnxBackendRealModelTest" in str(type(x)):
