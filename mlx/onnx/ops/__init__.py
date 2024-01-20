@@ -331,22 +331,11 @@ def Unsqueeze(x: mx.array, axes: mx.array):
 
 
 def Flatten(x: mx.array, axis=1):
-    return mx.reshape(
-        x,
-        (
-            math.prod(
-                [
-                    1,
-                ]
-                + x.shape[:axis]
-            ),
-            -1,
-        ),
-    )
+    new_shape = math.prod([1] + x.shape[:axis])
+    return mx.reshape(x, (new_shape, -1,),)
 
 
 def axes_helper(axes: Optional[mx.array] = None, noop_with_empty_axes=0):
-    # print(axes)
     if isinstance(axes, tuple):
         return axes
     if axes is not None and isinstance(axes, mx.array) and axes.size > 0:
