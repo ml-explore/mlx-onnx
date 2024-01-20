@@ -8,8 +8,6 @@ import mlx.nn.losses as losses
 import onnx
 
 from .op_norm import LayerNormalization
-from .op_nll import NegativeLogLikelihoodLoss
-from .op_softmax_cross_entropy import SoftmaxCrossEntropyLoss
 from .op_split import Split
 from .op_conv import Conv
 from .op_slice import Slice
