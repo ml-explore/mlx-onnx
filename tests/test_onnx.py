@@ -186,12 +186,13 @@ btest.exclude("test_mod_mixed_sign_int32_cpu")
 btest.exclude("test_mod_mixed_sign_int16_cpu")
 
 btest.exclude("test_operator_pad_*")
-btest.exclude("test_sequence_*")
+btest.exclude("test_sequence_map_*")
 btest.exclude("test_strnorm_*")
 btest.exclude("test_bitshift_*")
 btest.exclude("string")
 
 # float64 datatype
+btest.exclude("test_sequence_model7_cpu")
 btest.exclude("test_max_float64_cpu")
 btest.exclude("test_min_float64_cpu")
 btest.exclude("test_reduce_log_sum_exp_*")
