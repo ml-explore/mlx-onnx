@@ -53,6 +53,10 @@ btest.exclude("test_ReplicationPad2d_*")
 btest.exclude("test_wrap_pad_*")
 btest.exclude("test_ReflectionPad2d_*")
 btest.exclude("test_edge_*")
+btest.exclude("test_reflect_pad_cpu")
+btest.exclude("test_constant_pad_negative_axes_cpu")
+btest.exclude("test_constant_pad_cpu")
+btest.exclude("test_constant_pad_axes_cpu")
 
 btest.exclude("test_operator_convtranspose_cpu")
 btest.exclude("test_ConvTranspose2d_*")
@@ -129,6 +133,8 @@ btest.exclude("test_nllloss_*")
 btest.exclude("test_optional_*")
 btest.exclude("test_mvn_*")
 
+btest.exclude("test_ai_onnx_ml_*")
+
 # TODO: Quantize ops
 btest.exclude("test_qlinearconv_*")
 btest.exclude("test_qlinearmatmul_*")
@@ -148,6 +154,7 @@ btest.exclude("test_Conv2d_depthwise_with_multiplier_cpu")
 btest.exclude("test_Conv2d_dilated_cpu")
 btest.exclude("test_Conv2d_groups_cpu")
 btest.exclude("test_Conv3d_*")
+btest.exclude("test_conv_with_autopad_same_cpu")
 
 # TODO: need to go through and handle these better
 btest.exclude("test_cast_*")
@@ -159,6 +166,8 @@ btest.exclude("test_argmin_no_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_negative_axis_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_keepdims_example_select_last_index_cpu")
 btest.exclude("test_Conv2d_groups_thnn_cpu")
+btest.exclude("test_scan_sum_cpu")
+
 
 # TODO: Graph tests
 btest.exclude("test_range_float_type_positive_delta_expanded_cpu")

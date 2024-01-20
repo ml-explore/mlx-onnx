@@ -3,6 +3,7 @@ from typing import Optional
 
 def Conv(x: mx.array, weight: mx.array, bias: Optional[mx.array]=None, dilations:Optional[mx.array]=None, group=1, auto_pad="NOTSET", kernel_shape:Optional[mx.array]=None, pads:Optional[mx.array]=None, strides:Optional[mx.array]=None):
     assert group == 1, f"mlx only supports 1 group, got {group}"
+    assert auto_pad == "NOTSET", f"only support auto_pad NOTSET, got {auto_pad}"
     if dilations is not None:
         assert all(x == 1 for x in dilations.tolist()), "mlx only supports dilation 1"
     if x.ndim == 3:
