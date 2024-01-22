@@ -13,6 +13,7 @@ from .op_sequence import SequenceConstruct, SplitToSequence, SequenceLength, Seq
 from .op_pool import MaxPool, AveragePool
 from .op_conv import Conv
 from .op_slice import Slice
+from .op_topk import TopK
 
 # Reference Docs: https://onnx.ai/onnx/operators/
 
