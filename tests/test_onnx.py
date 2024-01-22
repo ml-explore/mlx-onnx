@@ -66,6 +66,8 @@ btest.exclude("test_convtranspose_*")
 btest.exclude("test_PReLU_*")
 btest.exclude("test_topk*")
 
+btest.exclude("test_averagepool_*")
+
 # TODO: Implement dilations / col format
 btest.exclude("test_maxpool_with_argmax_2d_precomputed_pads_cpu")
 btest.exclude("test_maxpool_2d_dilations_cpu")
@@ -100,8 +102,6 @@ btest.exclude("test_gridsample_*")
 btest.exclude("test_bernoulli_*")
 btest.exclude("test_center_crop_pad_*")
 btest.exclude("test_spacetodepth_*")
-btest.exclude("test_AvgPool*")
-btest.exclude("test_averagepool_*")
 btest.exclude("test_roialign_*")
 btest.exclude("test_nonzero_example_cpu")
 btest.exclude("test_upsample_nearest_cpu")

@@ -10,7 +10,7 @@ import onnx
 from .op_norm import LayerNormalization
 from .op_split import Split 
 from .op_sequence import SequenceConstruct, SplitToSequence, SequenceLength, SequenceEmpty, SequenceAt, SequenceErase, ConcatFromSequence, SequenceInsert
-from .op_maxpool import MaxPool
+from .op_pool import MaxPool, AveragePool
 from .op_conv import Conv
 from .op_slice import Slice
 
