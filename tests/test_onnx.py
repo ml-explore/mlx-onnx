@@ -65,9 +65,17 @@ btest.exclude("test_convtranspose_*")
 
 btest.exclude("test_PReLU_*")
 btest.exclude("test_topk*")
-btest.exclude("test_maxpool_*")
-btest.exclude("test_operator_maxpool_*")
-btest.exclude("test_MaxPool*")
+
+# TODO: Implement dilations / autopad
+btest.exclude("test_maxpool_with_argmax_2d_precomputed_pads_cpu")
+btest.exclude("test_maxpool_2d_dilations_cpu")
+btest.exclude("test_maxpool_with_argmax_2d_precomputed_strides_cpu")
+btest.exclude("test_maxpool_2d_same_*")
+btest.exclude("test_maxpool_2d_precomputed_same_*")
+btest.exclude("test_maxpool_3d_dilations_*")
+btest.exclude("test_MaxPool1d_stride_padding_dilation_cpu")
+btest.exclude("test_MaxPool2d_stride_padding_dilation_cpu")
+
 btest.exclude("test_maxunpool_*")
 btest.exclude("test_batchnorm_*")
 btest.exclude("test_BatchNorm*")
