@@ -9,8 +9,12 @@ def compute_strides(shape: List[int]):
 def MaxPool(x: mx.array, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dilations:Optional[mx.array]=None, pads=None, storage_order=0, strides=None):
     return Pool(x, mx.max, float("-inf"), kernel_shape, auto_pad, ceil_mode, dilations, pads, storage_order, strides)
 
-def AveragePool(x: mx.array, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dilations:Optional[mx.array]=None, pads=None, storage_order=0, strides=None):
-    return Pool(x, mx.mean, 0, kernel_shape, auto_pad, ceil_mode, dilations, pads, storage_order, strides)
+def AveragePool(x: mx.array, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dilations:Optional[mx.array]=None, pads=None, storage_order=0, strides=None, count_include_pad=0):
+    res = Pool(x, mx.mean, 0, kernel_shape, auto_pad, ceil_mode, dilations, pads, storage_order, strides)
+    if count_include_pad:
+        return res
+    div = Pool(mx.ones_like(x), mx.mean, 0, kernel_shape, auto_pad, ceil_mode, dilations, pads, storage_order, strides)
+    return res / div
 
 def Pool(x: mx.array, op: Callable[..., mx.array], pad_fill: float, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dilations:Optional[mx.array]=None, pads=None, storage_order=0, strides=None):
     """
