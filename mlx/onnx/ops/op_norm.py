@@ -1,6 +1,11 @@
 import mlx.core as mx
 import mlx.nn.layers as layers
 
+def InstanceNormalization(x: mx.array, scale: mx.array, bias: mx.array, epsilon=1e-5):
+    t = layers.InstanceNorm(dims=0, eps=epsilon)
+    setattr(t, "weight", scale.reshape([-1, 1, 1]))
+    setattr(t, "bias", bias.reshape([-1, 1, 1]))
+    return t(x, axis=(2, 3))
 
 def LayerNormalization(
     x: mx.array, scale: mx.array, bias: mx.array, axis=-1, stash_type=1, epsilon=1e-5

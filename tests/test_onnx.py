@@ -78,12 +78,10 @@ btest.exclude("test_MaxPool1d_stride_padding_dilation_cpu")
 btest.exclude("test_MaxPool2d_stride_padding_dilation_cpu")
 
 btest.exclude("test_maxunpool_*")
+
 btest.exclude("test_batchnorm_*")
 btest.exclude("test_BatchNorm*")
-
-# Note: both are instance norm
-btest.exclude("test_instancenorm_*")
-btest.exclude("test_operator_symbolic_override_cpu")
+btest.exclude("test_group_normalization_*")
 
 btest.exclude("test_gelu_tanh_*")
 btest.exclude("test_bitshift_*")
@@ -133,7 +131,6 @@ btest.exclude("test_lstm_*")
 btest.exclude("test_training_dropout_*")
 btest.exclude("test_dropout_*")
 btest.exclude("test_melweightmatrix_cpu")
-btest.exclude("test_group_normalization_*")
 btest.exclude("test_resize_*")
 btest.exclude("test_regex_*")
 
