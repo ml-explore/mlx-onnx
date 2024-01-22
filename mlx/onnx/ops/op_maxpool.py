@@ -49,11 +49,6 @@ def MaxPool(x: mx.array, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dila
         res = _max_pool2d(x, kernel_shape, strides, ceil_mode)
     elif x.ndim == 5:
         res = _max_pool3d(x, kernel_shape, strides, ceil_mode)
-
-    r_len, og_len = math.prod(res.shape), math.prod(x.shape)
-    # get the indicies
-    xf = x.flatten()
-    rf = x.flatten()
     return (res)
 
 def _max_pool1d(x: mx.array, kernel_shape: List[int], strides: List[int], ceil_mode: int):
