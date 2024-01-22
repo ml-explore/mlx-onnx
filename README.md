@@ -1,6 +1,5 @@
 # mlx-onnx
-MLX support for the Open Neural Network Exchange (ONNX)
-
+MLX support for the Open Neural Network Exchange ([ONNX](https://onnx.ai/)) 
 
 ## Usage
 ```python
