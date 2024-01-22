@@ -1,6 +1,6 @@
 import mlx.core as mx
 from typing import Optional, List
-from .pad import convert_pad
+from .pad import convert_pad, auto_pad as ap
 import math
 
 def compute_strides(shape: List[int]):
@@ -14,9 +14,7 @@ def MaxPool(x: mx.array, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dila
     pads: [x1_begin, x2_begin...x1_end, x2_end,...]
     """
     assert x.ndim >= 3, "MaxPool only supports >= 3D input"
-    assert auto_pad == "NOTSET", "MaxPool only supports auto_pad=NOTSET for now"
     assert storage_order == 0, "MaxPool only supports storage_order=0 for now"
-
     if isinstance(kernel_shape, mx.array):
         kernel_shape = kernel_shape.tolist()
     if isinstance(strides, mx.array):
@@ -27,10 +25,10 @@ def MaxPool(x: mx.array, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dila
         pads = pads.tolist()
     if pads is None:
         pads = [0] * len(kernel_shape) * 2
+    if auto_pad != "NOTSET":
+        pads = ap(x.shape, auto_pad, strides, kernel_shape)
     if any([p > 0 for p in pads]):
         pads = convert_pad(pads)
-        # if ceil_mode == 1:
-            # pads = [(p[0], p[1]+1) for p in pads]
         x = mx.pad(x, pad_width=[(0,0), (0,0)] + pads, constant_values=float("-inf"))
 
     if dilations is None:
@@ -39,7 +37,6 @@ def MaxPool(x: mx.array, kernel_shape=None, auto_pad="NOTSET", ceil_mode=0, dila
         dilations = dilations.tolist()
     if any([d > 1 for d in dilations]):
         raise NotImplementedError("MaxPool does not support dilation > 1")
-
     if ceil_mode == 1:
         x = mx.pad(x, pad_width=[(0,0), (0,0)] + [(0,1)]*(x.ndim-2), constant_values=float("-inf"))
 
