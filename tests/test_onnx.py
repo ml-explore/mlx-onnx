@@ -57,6 +57,7 @@ btest.exclude("test_reflect_pad_cpu")
 btest.exclude("test_constant_pad_negative_axes_cpu")
 btest.exclude("test_constant_pad_cpu")
 btest.exclude("test_constant_pad_axes_cpu")
+btest.exclude("test_operator_pad_*")
 
 btest.exclude("test_operator_convtranspose_cpu")
 btest.exclude("test_ConvTranspose2d_*")
@@ -85,6 +86,7 @@ btest.exclude("test_instancenorm_*")
 btest.exclude("test_operator_symbolic_override_cpu")
 
 btest.exclude("test_gelu_tanh_*")
+btest.exclude("test_bitshift_*")
 btest.exclude("test_bitwise_*")
 btest.exclude("test_gathernd_*")
 btest.exclude("test_tfidfvectorizer_*")
@@ -191,10 +193,8 @@ btest.exclude("test_mod_mixed_sign_int64_cpu")
 btest.exclude("test_mod_mixed_sign_int32_cpu")
 btest.exclude("test_mod_mixed_sign_int16_cpu")
 
-btest.exclude("test_operator_pad_*")
 btest.exclude("test_sequence_map_*")
 btest.exclude("test_strnorm_*")
-btest.exclude("test_bitshift_*")
 btest.exclude("string")
 
 # float64 datatype
