@@ -26,7 +26,7 @@ def Conv(x: mx.array, weight: mx.array, bias: Optional[mx.array]=None, dilations
         c = c + bias if bias is not None else c 
         return c.transpose(0, 2, 1)
     elif x.ndim == 4:
-        c = mx.conv2d(x.transpose(0, 2, 3, 1), weight.transpose(0, 2, 3, 1), padding=pads if pads is not None else 0, stride=strides if strides is not None else 1)
+        c = mx.conv2d(x.transpose(0, 2, 3, 1), weight.transpose(0, 2, 3, 1), padding=pads[:2] if pads is not None else 0, stride=strides if strides is not None else 1)
         c = c + bias if bias is not None else c
         return c.transpose(0, 3, 1, 2)
     else:
