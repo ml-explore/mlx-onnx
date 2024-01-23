@@ -11,6 +11,16 @@ onnx_ops = importlib.import_module("mlx.onnx.ops")
 DEBUG = os.getenv("DEBUG", "0") == "1"
 
 
+class MlxBackendWrapper:
+    @classmethod
+    def prepare(cls, model: onnx.ModelProto, device: str):
+        return MlxBackend(model)
+
+    @classmethod
+    def supports_device(cls, device: str) -> bool:
+        return device.lower() in ["cpu", "gpu"]
+
+
 class MlxBackend:
     def __init__(self, model: onnx.ModelProto):
         self._model = model

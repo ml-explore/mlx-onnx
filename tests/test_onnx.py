@@ -5,7 +5,7 @@ import mlx.core as mx
 import numpy as np
 import onnx.backend.test
 
-from mlx.onnx import MlxBackend
+from mlx.onnx import MlxBackend, MlxBackendWrapper
 
 
 # need to conver to numpy for the testing suite
@@ -21,14 +21,10 @@ class TestMlxBackend(MlxBackend):
         )
 
 
-class TestMlxBackendWrapper:
+class TestMlxBackendWrapper(MlxBackendWrapper):
     @classmethod
     def prepare(cls, model: onnx.ModelProto, device: str):
         return TestMlxBackend(model)
-
-    @classmethod
-    def supports_device(cls, device: str) -> bool:
-        return device.lower() in ["cpu", "gpu"]
 
 
 btest = onnx.backend.test.BackendTest(TestMlxBackendWrapper, __name__)
