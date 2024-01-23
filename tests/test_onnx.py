@@ -78,10 +78,9 @@ btest.exclude("test_MaxPool2d_stride_padding_dilation_cpu")
 
 btest.exclude("test_maxunpool_*")
 
-btest.exclude("test_batchnorm_*")
+# TODO: These are training parameters 
 btest.exclude("test_batchnorm_example_training_mode_cpu")
 btest.exclude("test_batchnorm_epsilon_training_mode_cpu")
-
 btest.exclude("test_BatchNorm*")
 
 btest.exclude("test_gelu_tanh_*")
