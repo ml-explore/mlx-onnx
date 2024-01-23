@@ -15,6 +15,7 @@ from .op_conv import Conv
 from .op_slice import Slice
 from .op_topk import TopK
 from .op_window import HannWindow, BlackmanWindow, HammingWindow
+from .op_depth import DepthToSpace, SpaceToDepth
 
 from .helper import DTYPE_MAP
 
