@@ -35,8 +35,6 @@ btest.exclude("test_sce_*")
 btest.exclude("test_div_uint8_cpu")
 
 # TODO: Debug these errors
-btest.exclude("test_clip_default_max_cpu")
-btest.exclude("test_clip_default_int8_max_cpu")
 btest.exclude("test_onehot_negative_indices_cpu")
 # TODO: Implement
 btest.exclude("test_ReplicationPad2d_*")
@@ -44,6 +42,7 @@ btest.exclude("test_wrap_pad_*")
 btest.exclude("test_ReflectionPad2d_*")
 btest.exclude("test_edge_*")
 btest.exclude("test_reflect_pad_cpu")
+btest.exclude("test_center_crop_pad_*")
 btest.exclude("test_operator_pad_*")
 
 btest.exclude("test_operator_convtranspose_cpu")
@@ -84,7 +83,6 @@ btest.exclude("test_scatter_*")
 btest.exclude("test_scatter_elements_*")
 btest.exclude("test_gridsample_*")
 btest.exclude("test_bernoulli_*")
-btest.exclude("test_center_crop_pad_*")
 
 btest.exclude("test_roialign_*")
 btest.exclude("test_nonzero_example_cpu")

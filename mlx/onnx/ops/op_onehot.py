@@ -7,8 +7,7 @@ def OneHot(indicies: mx.array, depth: mx.array, values: mx.array, axis=-1):
     if isinstance(depth, mx.array):
         depth = depth.item()
     depth_range = mx.arange(depth)
-    if axis < 0:
-        axis = indicies.ndim + axis + 1
+    axis = axis if axis >= 0 else indicies.ndim + axis
     ls = indicies.shape[0:axis]
     rs = indicies.shape[axis : indicies.ndim]
     new_shape = [1] * len(ls) + depth_range.shape + [1] * len(rs)

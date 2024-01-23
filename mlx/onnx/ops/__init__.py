@@ -324,9 +324,9 @@ def Selu(x: mx.array, alpha=1.67326319217681884765625, gamma=1.05070102214813232
 
 def Clip(x: mx.array, min=float("-inf"), max=float("inf")):
     if max is None:
-        return x
+        max = float("inf")
     if min is None:
-        return x
+        min = float("-inf")
     return mx.clip(x, min, max).astype(x.dtype)
 
 
