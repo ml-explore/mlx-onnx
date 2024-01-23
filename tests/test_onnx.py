@@ -55,8 +55,6 @@ btest.exclude("test_ConvTranspose2d_*")
 btest.exclude("test_ConstantPad2d_*")
 btest.exclude("test_convtranspose_*")
 
-btest.exclude("test_PReLU_*")
-
 # TODO: Implement dilations / col format
 btest.exclude("test_averagepool_2d_dilations_cpu")
 btest.exclude("test_averagepool_3d_dilations_*")

@@ -313,7 +313,7 @@ def Mish(x: mx.array):
 
 
 def PRelu(x: mx.array, slope: mx.array):
-    slops = slope[0] if slope.shape[-1] != x.shape[-1] else slope
+    slope = slope[0] if slope.shape[-1] != x.shape[-1] else slope
     return layers.prelu(x, slope)
 
 
