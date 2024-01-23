@@ -7,19 +7,33 @@ import mlx.nn.layers as layers
 import mlx.nn.losses as losses
 import onnx
 
-from .op_norm import LayerNormalization, InstanceNormalization, GroupNormalization, BatchNormalization
-from .op_split import Split 
-from .op_sequence import SequenceConstruct, SplitToSequence, SequenceLength, SequenceEmpty, SequenceAt, SequenceErase, ConcatFromSequence, SequenceInsert
-from .op_pool import MaxPool, AveragePool
-from .op_conv import Conv
-from .op_slice import Slice
-from .op_topk import TopK
-from .op_window import HannWindow, BlackmanWindow, HammingWindow
-from .op_depth import DepthToSpace, SpaceToDepth
-
 from .helper import DTYPE_MAP
+from .op_conv import Conv
+from .op_depth import DepthToSpace, SpaceToDepth
+from .op_norm import (
+    BatchNormalization,
+    GroupNormalization,
+    InstanceNormalization,
+    LayerNormalization,
+)
+from .op_pool import AveragePool, MaxPool
+from .op_sequence import (
+    ConcatFromSequence,
+    SequenceAt,
+    SequenceConstruct,
+    SequenceEmpty,
+    SequenceErase,
+    SequenceInsert,
+    SequenceLength,
+    SplitToSequence,
+)
+from .op_slice import Slice
+from .op_split import Split
+from .op_topk import TopK
+from .op_window import BlackmanWindow, HammingWindow, HannWindow
 
 # Reference Docs: https://onnx.ai/onnx/operators/
+
 
 def Add(x: mx.array, y: mx.array, broadcast=None, axis=None):
     return x + y
@@ -147,6 +161,21 @@ def Softsign(x: mx.array):
 
 def MatMul(x: mx.array, y: mx.array):
     return x @ y
+
+
+def MatMulInteger(
+    x: mx.array,
+    y: mx.array,
+    a_zero_point: Optional[mx.array] = None,
+    b_zero_point: Optional[mx.array] = None,
+):
+    x = x.astype(mx.float32)
+    y = y.astype(mx.float32)
+    if a_zero_point is not None:
+        x = x - a_zero_point
+    if b_zero_point is not None:
+        y = y - b_zero_point
+    return (x @ y).astype(mx.int32)
 
 
 def Cast(x: mx.array, to: int, saturate=1):
@@ -322,7 +351,13 @@ def Unsqueeze(x: mx.array, axes: mx.array):
 
 def Flatten(x: mx.array, axis=1):
     new_shape = math.prod([1] + x.shape[:axis])
-    return mx.reshape(x, (new_shape, -1,),)
+    return mx.reshape(
+        x,
+        (
+            new_shape,
+            -1,
+        ),
+    )
 
 
 def axes_helper(axes: Optional[mx.array] = None, noop_with_empty_axes=0):
@@ -466,29 +501,40 @@ def Not(x: mx.array):
 def Mod(x: mx.array, y: mx.array, fmod=0):
     return x % y
 
-def OptionalHasElement(x: Optional[mx.array]=None):
+
+def OptionalHasElement(x: Optional[mx.array] = None):
     return mx.array(x is not None and len(x) > 0, dtype=mx.bool_)
 
-def OptionalGetElement(x: Optional[mx.array]=None):
+
+def OptionalGetElement(x: Optional[mx.array] = None):
     return x if x is not None else mx.array([])
 
+
 def IsInf(x: mx.array, detect_negative=1, detect_positive=1):
-    return (x == float("inf")) * bool(detect_positive) + (x == float("-inf")) * bool(detect_negative)
+    return (x == float("inf")) * bool(detect_positive) + (x == float("-inf")) * bool(
+        detect_negative
+    )
+
 
 def IsNaN(x: mx.array):
     return x != x
 
+
 def ThresholdedRelu(x: mx.array, alpha=1.0):
     return mx.where(x > alpha, x, 0)
+
 
 def Binarizer(x: mx.array, threshold=0.0):
     return mx.where(x > threshold, 1.0, 0.0)
 
+
 def GlobalAveragePool(x: mx.array):
     return x.mean(axis=tuple(range(2, x.ndim)), keepdims=True)
 
+
 def GlobalMaxPool(x: mx.array):
     return x.max(axis=tuple(range(2, x.ndim)), keepdims=True)
+
 
 def Xor(x: mx.array, y: mx.array):
     return mx.where(x == y, False, True)

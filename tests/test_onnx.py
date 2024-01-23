@@ -3,6 +3,7 @@ import unittest
 import mlx.core as mx
 import numpy as np
 import onnx.backend.test
+
 from mlx.onnx import MlxBackend
 
 
@@ -37,7 +38,7 @@ btest.exclude("test_sce_*")
 btest.exclude("test_div_uint8_cpu")
 btest.exclude("test_pow_types_int32_float32_cpu")
 btest.exclude("test_pow_types_int64_float32_cpu")
-btest.exclude("test_matmulinteger_*")
+btest.include("test_matmulinteger_*")
 btest.exclude("test_clip_default_int8_min_cpu")
 
 # TODO: Debug these errors
@@ -78,7 +79,7 @@ btest.exclude("test_MaxPool2d_stride_padding_dilation_cpu")
 
 btest.exclude("test_maxunpool_*")
 
-# TODO: These are training parameters 
+# TODO: These are training parameters
 btest.exclude("test_batchnorm_example_training_mode_cpu")
 btest.exclude("test_batchnorm_epsilon_training_mode_cpu")
 btest.exclude("test_BatchNorm*")
