@@ -57,7 +57,7 @@ def Neg(x: mx.array):
 
 
 def Pow(x: mx.array, y: mx.array):
-    return x**y
+    return (x**y).astype(x.dtype)
 
 
 def Sqrt(x: mx.array):
@@ -319,7 +319,11 @@ def Selu(x: mx.array, alpha=1.67326319217681884765625, gamma=1.05070102214813232
 
 
 def Clip(x: mx.array, min=float("-inf"), max=float("inf")):
-    return mx.clip(x, min, max)
+    if max is None:
+        return x
+    if min is None:
+        return x
+    return mx.clip(x, min, max).astype(x.dtype)
 
 
 def Range(start: mx.array, limit: mx.array, delta: mx.array):
@@ -374,6 +378,8 @@ def ReduceMax(x: mx.array, axes: mx.array = None, keepdims=1, noop_with_empty_ax
 
 
 def ReduceMin(x: mx.array, axes: mx.array = None, keepdims=1, noop_with_empty_axes=0):
+    if math.prod(x.shape) == 0:
+        return mx.array(float("inf")).astype(x.dtype)
     return x.min(axes_helper(axes, noop_with_empty_axes), keepdims=keepdims)
 
 

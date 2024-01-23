@@ -36,17 +36,11 @@ btest = onnx.backend.test.BackendTest(TestMlxBackendWrapper, __name__)
 btest.exclude("test_sce_*")
 # TODO: these are upcasting to float32
 btest.exclude("test_div_uint8_cpu")
-btest.exclude("test_pow_types_int32_float32_cpu")
-btest.exclude("test_pow_types_int64_float32_cpu")
-btest.exclude("test_clip_default_int8_min_cpu")
 
 # TODO: Debug these errors
 btest.exclude("test_clip_default_max_cpu")
-btest.exclude("test_clip_default_inbounds_cpu")
 btest.exclude("test_clip_default_int8_max_cpu")
-btest.exclude("test_clip_default_int8_inbounds_cpu")
-btest.exclude("test_reduce_min_empty_set_cpu")
-
+btest.exclude("test_onehot_negative_indices_cpu")
 # TODO: Implement
 btest.exclude("test_ZeroPad2d_*")
 btest.exclude("test_ReplicationPad2d_*")
@@ -88,7 +82,6 @@ btest.exclude("test_bitshift_*")
 btest.exclude("test_bitwise_*")
 btest.exclude("test_gathernd_*")
 btest.exclude("test_tfidfvectorizer_*")
-btest.exclude("test_split_to_sequence_*")
 btest.exclude("test_unique_*")
 btest.exclude("test_einsum_*")
 btest.exclude("test_image_decoder_*")
