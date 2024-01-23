@@ -11,6 +11,7 @@ from .helper import DTYPE_MAP
 from .op_conv import Conv
 from .op_depth import DepthToSpace, SpaceToDepth
 from .op_dropout import Dropout
+from .op_image import ImageDecoder
 from .op_lrn import LRN
 from .op_norm import (
     BatchNormalization,
