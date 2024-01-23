@@ -16,6 +16,7 @@ from .op_norm import (
     InstanceNormalization,
     LayerNormalization,
 )
+from .op_onehot import OneHot
 from .op_pool import AveragePool, MaxPool
 from .op_sequence import (
     ConcatFromSequence,
