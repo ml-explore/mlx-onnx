@@ -1,5 +1,5 @@
-from onnx import TensorProto
 import mlx.core as mx
+from onnx import TensorProto
 
 DTYPE_MAP = {
     TensorProto.FLOAT: mx.float32,
@@ -14,4 +14,10 @@ DTYPE_MAP = {
     TensorProto.UINT32: mx.uint32,
     TensorProto.UINT64: mx.uint64,
     TensorProto.BFLOAT16: mx.bfloat16,
+    TensorProto.COMPLEX64: mx.complex64,
 }
+
+
+def dtype_helper(dtype: TensorProto.DataType) -> mx.Dtype:
+    assert dtype in DTYPE_MAP, f"Unsupported dtype {dtype}"
+    return DTYPE_MAP[dtype]

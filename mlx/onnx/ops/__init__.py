@@ -7,7 +7,7 @@ import mlx.nn.layers as layers
 import mlx.nn.losses as losses
 import onnx
 
-from .helper import DTYPE_MAP
+from .helper import dtype_helper
 from .op_conv import Conv
 from .op_depth import DepthToSpace, SpaceToDepth
 from .op_dropout import Dropout
@@ -186,7 +186,7 @@ def MatMulInteger(
 def Cast(x: mx.array, to: int, saturate=1):
     if to == onnx.TensorProto.DOUBLE:
         raise NotImplementedError("mlx does not support double data type")
-    return x.astype(DTYPE_MAP[to])
+    return x.astype(dtype_helper(to))
 
 
 def CastLike(x: mx.array, target_type: mx.array, saturate=1):
@@ -493,7 +493,7 @@ def EyeLike(x: mx.array, dtype=None, k=0):
     if dtype is None:
         dtype = x.dtype
     else:
-        dtype = DTYPE_MAP[dtype]
+        dtype = dtype_helper(dtype)
     return mx.eye(x.shape[0], x.shape[1], k=k, dtype=dtype)
 
 
