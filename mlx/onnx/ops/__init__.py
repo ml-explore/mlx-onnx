@@ -7,7 +7,7 @@ import mlx.nn.layers as layers
 import mlx.nn.losses as losses
 import onnx
 
-from .op_norm import LayerNormalization, InstanceNormalization
+from .op_norm import LayerNormalization, InstanceNormalization, GroupNormalization 
 from .op_split import Split 
 from .op_sequence import SequenceConstruct, SplitToSequence, SequenceLength, SequenceEmpty, SequenceAt, SequenceErase, ConcatFromSequence, SequenceInsert
 from .op_pool import MaxPool, AveragePool

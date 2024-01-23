@@ -79,8 +79,10 @@ btest.exclude("test_MaxPool2d_stride_padding_dilation_cpu")
 btest.exclude("test_maxunpool_*")
 
 btest.exclude("test_batchnorm_*")
+btest.exclude("test_batchnorm_example_training_mode_cpu")
+btest.exclude("test_batchnorm_epsilon_training_mode_cpu")
+
 btest.exclude("test_BatchNorm*")
-btest.exclude("test_group_normalization_*")
 
 btest.exclude("test_gelu_tanh_*")
 btest.exclude("test_bitshift_*")
