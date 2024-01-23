@@ -548,3 +548,18 @@ def GlobalMaxPool(x: mx.array):
 
 def Xor(x: mx.array, y: mx.array):
     return mx.where(x == y, False, True)
+
+
+def Compress(x: mx.array, condition: mx.array, axis=None):
+    if axis is None:
+        x = x.flatten()
+        axis = 0
+    axis = axis if axis >= 0 else axis + x.ndim
+
+    # TODO: Replace with bool indexing when added
+    temp = []
+    for i, v in enumerate(condition.tolist()):
+        if v:
+            temp.append(i)
+    temp = mx.array(temp, dtype=mx.int64)
+    return x[tuple([slice(None) if i != axis else temp for i in range(x.ndim)])]

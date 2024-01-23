@@ -112,7 +112,6 @@ btest.exclude("test_adam_*")
 btest.exclude("test_gru_*")
 btest.exclude("test_rnn_*")
 btest.exclude("test_simple_rnn_*")
-btest.exclude("test_compress_*")
 btest.exclude("test_lstm_*")
 
 btest.exclude("test_training_dropout_*")
