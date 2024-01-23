@@ -12,4 +12,5 @@ result = backend.run(...) # pass inputs to model
 ```
 
 ## Examples
+[ResNet Example](./examples/resnet/example.py)
 [Mnist Example](./examples/mnist/example.py)
