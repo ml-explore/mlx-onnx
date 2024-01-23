@@ -1,4 +1,5 @@
 import importlib
+import os
 from typing import Any, Tuple
 
 import mlx.core as mx
@@ -7,6 +8,7 @@ import onnx
 from onnx.helper import tensor_dtype_to_np_dtype
 
 onnx_ops = importlib.import_module("mlx.onnx.ops")
+DEBUG = os.getenv("DEBUG", "0") == "1"
 
 
 class MlxBackend:
@@ -102,7 +104,9 @@ class MlxBackend:
             args = [self._cache[x] if x in self._cache else None for x in node.input]
             opt = self.parse_attributes(node.attribute)
 
-            # Special case for split as outputs might need to be inferred from node 
+            # Special case for split as outputs might need to be inferred from node
+            if DEBUG:
+                print(f"Running op {node.op_type} with args {len(args)} and opt {opt}")
             if node.op_type == "Split":
                 if "num_outputs" not in opt and len(args) != 2:
                     opt["num_outputs"] = len(node.output)
@@ -114,7 +118,10 @@ class MlxBackend:
 
             if not isinstance(res, tuple):
                 res = (res,)
-
+            if len(node.output) > len(res):
+                raise ValueError(
+                    f"Expected {len(node.output)} outputs but got {len(res)}"
+                )
             for name, out in zip(node.output, res):
                 self._cache[name] = out
         return tuple(self._cache[out.name] for out in self._model.graph.output)

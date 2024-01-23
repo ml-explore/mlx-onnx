@@ -1,3 +1,4 @@
+import os
 import unittest
 
 import mlx.core as mx
@@ -69,6 +70,7 @@ btest.exclude("test_maxpool_with_argmax_2d_precomputed_strides_cpu")
 btest.exclude("test_maxpool_3d_dilations_*")
 btest.exclude("test_MaxPool1d_stride_padding_dilation_cpu")
 btest.exclude("test_MaxPool2d_stride_padding_dilation_cpu")
+btest.exclude("test_Conv2d_groups_thnn_cpu")
 
 btest.exclude("test_maxunpool_*")
 
@@ -112,13 +114,13 @@ btest.exclude("test_nesterov_momentum_cpu")
 btest.exclude("test_adam_*")
 
 btest.exclude("test_gru_*")
-btest.exclude("test_lrn_*")
 btest.exclude("test_rnn_*")
 btest.exclude("test_simple_rnn_*")
 btest.exclude("test_compress_*")
 btest.exclude("test_lstm_*")
+
 btest.exclude("test_training_dropout_*")
-btest.exclude("test_dropout_*")
+
 btest.exclude("test_melweightmatrix_cpu")
 btest.exclude("test_resize_*")
 btest.exclude("test_regex_*")
@@ -145,7 +147,9 @@ btest.exclude("test_Conv2d_depthwise_with_multiplier_cpu")
 btest.exclude("test_Conv2d_dilated_cpu")
 btest.exclude("test_Conv2d_groups_cpu")
 btest.exclude("test_Conv3d_*")
-btest.exclude("test_conv_with_autopad_same_cpu")
+btest.exclude("test_bvlc_alexnet_cpu")
+btest.exclude("test_squeezenet_cpu")
+btest.exclude("test_shufflenet_cpu")
 
 # TODO: need to go through and handle these better
 btest.exclude("test_cast_*")
@@ -156,7 +160,6 @@ btest.exclude("test_argmax_no_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_no_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_negative_axis_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmin_keepdims_example_select_last_index_cpu")
-btest.exclude("test_Conv2d_groups_thnn_cpu")
 btest.exclude("test_scan_sum_cpu")
 
 
@@ -196,11 +199,13 @@ btest.exclude("test_operator_add_size1_right_broadcast_cpu")
 btest.exclude("test_cumsum_*")
 btest.exclude("test_eyelike_with_dtype_cpu")
 btest.exclude("test_mod_mixed_sign_float64_cpu")
+btest.exclude("test_cast_FLOAT16_to_DOUBLE_cpu")
+btest.exclude("test_cast_FLOAT_to_DOUBLE_cpu")
 
-# skip models
-for x in btest.test_suite:
-    if "OnnxBackendRealModelTest" in str(type(x)):
-        btest.exclude(str(x).split(" ")[0])
+if os.getenv("MODELS", "0") == "0":
+    for x in btest.test_suite:
+        if "OnnxBackendRealModelTest" in str(type(x)):
+            btest.exclude(str(x).split(" ")[0])
 
 globals().update(btest.enable_report().test_cases)
 
