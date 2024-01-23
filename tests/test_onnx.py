@@ -38,7 +38,6 @@ btest.exclude("test_sce_*")
 btest.exclude("test_div_uint8_cpu")
 btest.exclude("test_pow_types_int32_float32_cpu")
 btest.exclude("test_pow_types_int64_float32_cpu")
-btest.include("test_matmulinteger_*")
 btest.exclude("test_clip_default_int8_min_cpu")
 
 # TODO: Debug these errors
