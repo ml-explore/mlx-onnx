@@ -14,25 +14,11 @@ from .op_pool import MaxPool, AveragePool
 from .op_conv import Conv
 from .op_slice import Slice
 from .op_topk import TopK
+from .op_window import HannWindow, BlackmanWindow, HammingWindow
+
+from .helper import DTYPE_MAP
 
 # Reference Docs: https://onnx.ai/onnx/operators/
-
-# Note: onnx.TensorProto.DOUBLE is not supported.
-DTYPE_MAP = {
-    onnx.TensorProto.FLOAT: mx.float32,
-    onnx.TensorProto.UINT8: mx.uint8,
-    onnx.TensorProto.INT8: mx.int8,
-    onnx.TensorProto.UINT16: mx.uint16,
-    onnx.TensorProto.INT16: mx.int16,
-    onnx.TensorProto.INT32: mx.int32,
-    onnx.TensorProto.INT64: mx.int64,
-    onnx.TensorProto.BOOL: mx.bool_,
-    onnx.TensorProto.FLOAT16: mx.float16,
-    onnx.TensorProto.UINT32: mx.uint32,
-    onnx.TensorProto.UINT64: mx.uint64,
-    onnx.TensorProto.BFLOAT16: mx.bfloat16,
-}
-
 
 def Add(x: mx.array, y: mx.array, broadcast=None, axis=None):
     return x + y
