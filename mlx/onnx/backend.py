@@ -91,32 +91,34 @@ class MlxBackend:
                 raise NotImplementedError(f"Attribute type {x.type} not implemented")
         return res
 
-    def run(self, inputs, **kwargs: Any) -> Tuple[mx.array, ...]:
+    def run(self, *inputs, **kwargs: Any) -> Tuple[mx.array, ...]:
         self.initializer_arrays()
-        inputs = self.get_input_dict(inputs)
+        inmap = self.get_input_dict(inputs)
+
         for i in self._model.graph.input:
             if i.name in self._cache:
                 continue
-            if i.name in inputs:
-                if isinstance(inputs[i.name], mx.array):
-                    self._cache[i.name] = inputs[i.name]
-                elif isinstance(inputs[i.name], list):
-                    self._cache[i.name] = [mx.array(x) for x in inputs[i.name]]
-                elif isinstance(inputs[i.name], np.ndarray):
-                    self._cache[i.name] = mx.array(inputs[i.name])
-                elif inputs[i.name] is None:
+            if i.name in inmap:
+                if isinstance(inmap[i.name], mx.array):
+                    self._cache[i.name] = inmap[i.name]
+                elif isinstance(inmap[i.name], list):
+                    self._cache[i.name] = [mx.array(x) for x in inmap[i.name]]
+                elif isinstance(inmap[i.name], np.ndarray):
+                    self._cache[i.name] = mx.array(inmap[i.name])
+                elif inmap[i.name] is None:
                     self._cache[i.name] = None
                 else:
                     raise NotImplementedError(
-                        f"Input type {inputs[i.name]} not implemented"
+                        f"Input type {inmap[i.name]} not implemented"
                     )
         for i, node in enumerate(self._model.graph.node):
             args = [self._cache[x] if x in self._cache else None for x in node.input]
             opt = self.parse_attributes(node.attribute)
-
-            # Special case for split as outputs might need to be inferred from node
             if DEBUG:
-                print(f"Running op {node.op_type} with args {len(args)} and opt {opt}")
+                print(
+                    f"Running op {node.input} {node.op_type} with args {len(args)} and opt {opt}"
+                )
+            # Special case for split as outputs might need to be inferred from node
             if node.op_type == "Split":
                 if "num_outputs" not in opt and len(args) != 2:
                     opt["num_outputs"] = len(node.output)
