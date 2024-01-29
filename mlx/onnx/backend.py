@@ -1,6 +1,6 @@
 import importlib
 import os
-from typing import Any, Tuple
+from typing import Any, List, Tuple
 
 import mlx.core as mx
 import numpy as np
@@ -92,6 +92,11 @@ class MlxBackend:
         return res
 
     def run(self, *inputs, **kwargs: Any) -> Tuple[mx.array, ...]:
+        if len(inputs) == 1 and isinstance(inputs[0], List):
+            inputs = tuple(inputs[0])
+        if not isinstance(inputs, Tuple):
+            inputs = tuple(inputs)
+
         self.initializer_arrays()
         inmap = self.get_input_dict(inputs)
 
@@ -102,7 +107,10 @@ class MlxBackend:
                 if isinstance(inmap[i.name], mx.array):
                     self._cache[i.name] = inmap[i.name]
                 elif isinstance(inmap[i.name], list):
-                    self._cache[i.name] = [mx.array(x) for x in inmap[i.name]]
+                    self._cache[i.name] = [
+                        mx.array(x) if not isinstance(x, mx.array) else x
+                        for x in inmap[i.name]
+                    ]
                 elif isinstance(inmap[i.name], np.ndarray):
                     self._cache[i.name] = mx.array(inmap[i.name])
                 elif inmap[i.name] is None:
