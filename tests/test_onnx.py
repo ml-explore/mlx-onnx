@@ -137,9 +137,22 @@ btest.exclude("test_bvlc_alexnet_cpu")
 btest.exclude("test_squeezenet_cpu")
 btest.exclude("test_shufflenet_cpu")
 
+btest.exclude("test_cast_no_saturate_FLOAT_to_FLOAT8*")
+btest.exclude("test_cast_FLOAT_to_FLOAT8*")
+btest.exclude("test_cast_no_saturate_FLOAT16_to_FLOAT8*")
+btest.exclude("test_cast_FLOAT16_to_FLOAT8*")
+btest.exclude("test_cast_FLOAT_to_BFLOAT16_cpu")
+btest.exclude("test_cast_STRING_to_FLOAT_cpu")
+btest.exclude("test_cast_BFLOAT16_to_FLOAT_cpu")
+btest.exclude("test_cast_FLOAT_to_STRING_cpu")
+
+btest.exclude("test_castlike_FLOAT_to_BFLOAT16*")
+btest.exclude("test_castlike_FLOAT_to_STRING*")
+btest.exclude("test_castlike_BFLOAT16_*")
+btest.exclude("test_castlike_STRING*")
+btest.exclude("test_castlike_FLOAT_to_FLOAT8*")
+
 # TODO: need to go through and handle these better
-btest.exclude("test_cast_*")
-btest.exclude("test_castlike_*")
 btest.exclude("test_argmax_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmax_negative_axis_keepdims_example_select_last_index_cpu")
 btest.exclude("test_argmax_no_keepdims_example_select_last_index_cpu")
@@ -173,6 +186,8 @@ btest.exclude("test_strnorm_*")
 btest.exclude("string")
 
 # float64 datatype
+btest.exclude("test_castlike_FLOAT_to_DOUBLE*")
+btest.exclude("test_castlike_FLOAT16_to_DOUBLE*")
 btest.exclude("test_sequence_model7_cpu")
 btest.exclude("test_max_float64_cpu")
 btest.exclude("test_min_float64_cpu")
