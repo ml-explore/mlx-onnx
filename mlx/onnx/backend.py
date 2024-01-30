@@ -1,6 +1,6 @@
 import importlib
 import os
-from typing import Any, List, Tuple
+from typing import Any, Callable, List, Tuple
 
 import mlx.core as mx
 import numpy as np
@@ -25,7 +25,13 @@ class MlxBackend:
     def __init__(self, model: onnx.ModelProto):
         self._model = model
         self._cache = {}
+        self._registered_ops = {}
         self.initializer_arrays()
+
+    def register_op(self, name: str, op: Callable):
+        if name in self._registered_ops:
+            raise ValueError(f"Op {name} already registered")
+        self._registered_ops[name] = op
 
     def initializer_arrays(self):
         for i in self._model.graph.initializer:
@@ -131,6 +137,8 @@ class MlxBackend:
                 if "num_outputs" not in opt and len(args) != 2:
                     opt["num_outputs"] = len(node.output)
                 res = getattr(onnx_ops, node.op_type)(*args, **opt)
+            elif node.op_type in self._registered_ops:
+                res = self._registered_ops[node.op_type](*args, **opt)
             elif hasattr(onnx_ops, node.op_type):
                 res = getattr(onnx_ops, node.op_type)(*args, **opt)
             else:
