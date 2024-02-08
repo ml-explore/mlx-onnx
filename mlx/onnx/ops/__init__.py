@@ -359,7 +359,7 @@ def Unsqueeze(x: mx.array, axes: mx.array):
 
 
 def Flatten(x: mx.array, axis=1):
-    new_shape = math.prod([1] + x.shape[:axis])
+    new_shape = math.prod([1] + list(x.shape[:axis]))
     return mx.reshape(
         x,
         (

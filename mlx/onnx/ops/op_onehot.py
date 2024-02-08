@@ -9,9 +9,9 @@ def OneHot(indicies: mx.array, depth: mx.array, values: mx.array, axis=-1):
     depth_range = mx.arange(depth)
     if axis < 0:
         axis = indicies.ndim + axis + 1
-    ls = indicies.shape[0:axis]
-    rs = indicies.shape[axis : indicies.ndim]
-    new_shape = [1] * len(ls) + depth_range.shape + [1] * len(rs)
+    ls = list(indicies.shape[0:axis])
+    rs = list(indicies.shape[axis : indicies.ndim])
+    new_shape = [1] * len(ls) + list(depth_range.shape) + [1] * len(rs)
     tgts = depth_range.reshape(new_shape)
     vals = (indicies % depth).reshape(ls + [1] + rs)
     return mx.where(tgts == vals, values[1], values[0])
