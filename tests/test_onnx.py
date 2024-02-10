@@ -175,12 +175,6 @@ btest.exclude("test_affine_grid_*")
 # TODO: Add gradient support
 btest.exclude("test_gradient_*")
 
-# TODO: Investigate
-btest.exclude("test_mod_mixed_sign_int8_cpu")
-btest.exclude("test_mod_mixed_sign_int64_cpu")
-btest.exclude("test_mod_mixed_sign_int32_cpu")
-btest.exclude("test_mod_mixed_sign_int16_cpu")
-
 btest.exclude("test_sequence_map_*")
 btest.exclude("test_strnorm_*")
 btest.exclude("string")
@@ -203,10 +197,13 @@ btest.exclude("test_mod_mixed_sign_float64_cpu")
 btest.exclude("test_cast_FLOAT16_to_DOUBLE_cpu")
 btest.exclude("test_cast_FLOAT_to_DOUBLE_cpu")
 
-if os.getenv("MODELS", "0") == "0":
-    for x in btest.test_suite:
-        if "OnnxBackendRealModelTest" in str(type(x)):
-            btest.exclude(str(x).split(" ")[0])
+for x in btest.test_suite:
+    if "OnnxBackendRealModelTest" in str(type(x)):
+        model = str(x).split(" ")[0]
+        if os.getenv("MODELS", "0") == "0":
+            btest.exclude(model)
+        else:
+            btest.include(model)
 
 globals().update(btest.enable_report().test_cases)
 
