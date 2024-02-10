@@ -162,6 +162,11 @@ btest.exclude("test_argmin_keepdims_example_select_last_index_cpu")
 btest.exclude("test_scan_sum_cpu")
 
 
+# TODO: fmod support
+btest.exclude("test_mod_mixed_sign_float32_cpu")
+btest.exclude("test_mod_mixed_sign_float16_cpu")
+btest.exclude("test_mod_int64_fmod_cpu")
+
 # TODO: Graph tests
 btest.exclude("test_range_float_type_positive_delta_expanded_cpu")
 btest.exclude("test_range_int32_type_negative_delta_expanded_cpu")

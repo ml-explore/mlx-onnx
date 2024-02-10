@@ -510,6 +510,7 @@ def Not(x: mx.array):
 
 
 def Mod(x: mx.array, y: mx.array, fmod=0):
+    assert fmod == 0, "fmod not supported"
     return x % y
 
 
