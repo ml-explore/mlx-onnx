@@ -1,3 +1,5 @@
+# Copyright © 2024 Apple Inc.
+
 import mlx.core as mx
 import mlx.data as dx
 import onnx
@@ -20,13 +22,12 @@ def run(image: str):
     backend = MlxBackend(model)
     res = []
     for data in dataset:
-        img = mx.array(data["image"]).transpose((2, 0, 1))
-        img = mx.expand_dims(img, 0)
-        x = backend.run(img)
-        res.append((labels[mx.argmax(x[0], axis=1).item()], mx.max(x[0]).item()))
+        img = mx.array(data["image"]).transpose(2, 0, 1)[None]
+        x = backend.run(img)[0]
+        res.append((labels[mx.argmax(x).item()], mx.max(x).item()))
     return res
 
 
 if __name__ == "__main__":
     for label, score in run("./car.jpg"):
-        print("Image containes a", label, score)
+        print(f"Image containes a {label} with score {score:.3f}.")
